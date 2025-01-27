@@ -1,0 +1,67 @@
+@font-face {
+    font-family: 'Chau Philomene';
+    src: url('../fonts/Chau_Philomene_One/ChauPhilomeneOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#body {
+    background-color:#101728;
+}
+
+h1 {
+    font-family: 'Chau Philomene';
+}
+
+p {
+    color:white;
+}
+
+h2 {
+    color:white;
+}
+
+
+/* Styles pour le menu latéral à droite */
+.offcanvas-end {
+    width: 250px; /* Ajustez la largeur selon vos préférences */
+    background-color: #101728; /* Couleur de fond sombre */
+    color: white;
+    border-left: 10px solid white; /* Bordure blanche sur le côté gauche */
+    border-top-left-radius: 30px; /* Arrondi en haut à gauche */
+    border-bottom-left-radius: 30px; /* Arrondi en bas à gauche */
+    min-height: 100vh; /* Assure que le menu prend toute la hauteur */
+}
+
+.offcanvas .offcanvas-header {
+    border-bottom: 1px solid white;
+}
+
+.offcanvas .offcanvas-body ul li a {
+    display: block;
+    padding: 15px 0;
+    color: white;
+    text-decoration: none;
+    font-size: 18px; /* Taille du texte plus grande pour les liens */
+}
+
+.offcanvas .offcanvas-body ul li a:hover {
+    background-color: #495057;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.btn-outline-light {
+    border-color: white;
+    color: white;
+}
+
+/* Cache le bouton de fermeture par défaut si vous le souhaitez */
+.offcanvas .btn-close {
+    display: none;
+}
+
+.modal-content {
+    background-color: #101728;
+}
+

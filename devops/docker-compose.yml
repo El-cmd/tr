@@ -1,6 +1,20 @@
-version: '3.7'
-
+version: '3.8'
 services:
+
+  api_gateway:
+    image: api_gateway
+    container_name: api_gateway
+    build:
+      context: ./api_gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+    restart: unless-stopped
+
   frontend:
     image: frontend
     container_name: frontend
@@ -8,7 +22,7 @@ services:
       context: ./front
       dockerfile: Dockerfile
     ports:
-      - "8000:80"
+      - "80"
     networks:
       - app-network
     restart: unless-stopped

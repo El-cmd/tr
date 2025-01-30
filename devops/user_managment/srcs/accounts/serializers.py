@@ -3,22 +3,35 @@ from .models import Profile, RelationsType, RelationsUpdate
 from rest_framework.fields import CurrentUserDefault
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.db import IntegrityError
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     repeated_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     
     class Meta:
         model = User
-        fields = ['username', 'password', 'repeated_password']
+        fields = ['username', 'email', 'password', 'repeated_password']
         extra_kwargs = {
-            'password': {'style' : {'input_type': 'password'}, 'write_only': True}
+            'password': {'style': {'input_type': 'password'}, 'write_only': True},
+            'username': {'validators': []},  # Supprimer les validateurs par défaut pour personnaliser le message
+            'email': {'required': True}
         }
     
-    def save(self, **kwargs) -> User:
-        #check if passwords match
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Un utilisateur avec ce nom existe déjà.")
+        return value
+    
+    def save(self, **kwargs):
         if self.validated_data['password'] != self.validated_data['repeated_password']:
-            raise serializers.ValidationError({"Error": "Password Does not match"})
-        return User(username=self.validated_data['username'], password=self.validated_data['password']).save()
+            raise serializers.ValidationError({"password": ["Les mots de passe ne correspondent pas."]})
+        
+        user = User.objects.create_user(
+            username=self.validated_data['username'],
+            email=self.validated_data.get('email', ''),
+            password=self.validated_data['password']
+        )
+        return user
 
 class RelationActionMaker():
     """

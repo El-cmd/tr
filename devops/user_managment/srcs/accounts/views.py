@@ -1,5 +1,5 @@
 from .models import Profile, RelationError, UnknownRelationError
-from .serializers import  UserRegisterSerializer,  ProfileSerializer #,ProfileUpdateSerializer,
+from .serializers import  UserRegisterSerializer,  ProfileSerializer, UserSerializer #,ProfileUpdateSerializer,
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, generics, status
@@ -78,22 +78,42 @@ def login(request):
         "user": serializer.data
     })
 
+#@api_view(['POST'])
+#def signup(request):
+#    #initialiser le nouvel user
+#    serializer = UserSerializer(data=request.data)
+#    if serializer.is_valid():
+#        serializer.save()
+#        user = User.objects.get(username=request.data['username'])
+#        user.set_password(request.data['password']) #hash le mdp
+#        user.save()
+#        #Generation des token JWT
+#        refresh = RefreshToken.for_user(user)
+#        return Response({
+#            "refresh": str(refresh),
+#            "access": str(refresh.access_token),
+#            "user": serializer.data
+#        })
+#    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 def signup(request):
-    #initialiser le nouvel user
-    serializer = UserSerializer(data=request.data)
+    serializer = UserRegisterSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        user = User.objects.get(username=request.data['username'])
-        user.set_password(request.data['password']) #hash le mdp
-        user.save()
-        #Generation des token JWT
-        refresh = RefreshToken.for_user(user)
-        return Response({
-            "refresh": str(refresh),
-            "access": str(refresh.access_token),
-            "user": serializer.data
-        })
+        try:
+            serializer.save()
+            user = User.objects.get(username=request.data['username'])
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "user": UserSerializer(user).data
+            })
+        except IntegrityError:
+            return Response(
+                {"username": ["Un utilisateur avec ce nom existe déjà."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])

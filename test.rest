@@ -1,0 +1,27 @@
+POST http://127.0.0.1:8001/accounts/login/
+Content-Type: application/json
+
+{ "username": "zack2", "password": "pass123" }
+
+###
+
+POST http://127.0.0.1:8001/accounts/signup/
+Content-Type: application/json
+
+{ "username": "zack2", "password": "pass123", "email": "new@gmail.com", "repeated_password": "pass123"}
+
+###
+ 
+GET http://127.0.0.1:8001/accounts/test_token/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM4MTk4ODg1LCJpYXQiOjE3MzgxOTg1ODUsImp0aSI6ImQwNmU2NTlkNmU2MDRhNzliZmYyY2FmNzI3ZGI0ZjhhIiwidXNlcl9pZCI6MX0.9MNqJlrrCmZg3F-tQv0ofBCG6ty5tvEfdO0nCMmpYSo
+
+
+###
+
+### OAuth2 Login
+GET http://localhost:8001/accounts/oauth2/login/
+
+
+### OAuth2 Callback
+GET http://localhost:8001/accounts/oauth2/callback/?code=f95f00ff7a1a3085a972c4379911b61d50860f0eb0282f0e208fbe34f4e35202

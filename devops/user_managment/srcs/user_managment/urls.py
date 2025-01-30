@@ -20,6 +20,6 @@ import accounts
 from django.urls import include
 
 urlpatterns = [
-	path('accounts/', include('accounts.urls')),
+	path('api/accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
 ]

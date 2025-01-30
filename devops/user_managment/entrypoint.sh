@@ -9,8 +9,8 @@ python srcs/manage.py migrate
 
 
 # Collecter les fichiers statiques
-echo "Collecting static files..."
-python srcs/manage.py collectstatic --noinput
+#echo "Collecting static files..."
+#python srcs/manage.py collectstatic --noinput
 
 # Créer un superutilisateur pour l'administration Django
 echo "Creating superuser..."
